@@ -6,11 +6,9 @@ import type { CompiledFunction, Point } from '../../types';
  * Supports symbolic parsing, compilation, and evaluation
  */
 export class MathEvaluator {
-  private parser: math.Parser;
   private functions: Map<string, (...args: number[]) => number>;
   
   constructor() {
-    this.parser = math.parser();
     this.functions = new Map();
   }
   

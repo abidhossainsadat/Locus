@@ -1,6 +1,6 @@
-import { FunctionDrawer } from './drawer/FunctionDrawer';
-import { GraphCanvas } from './canvas/GraphCanvas';
-import { useGraphStore } from '../store/graphStore';
+import { FunctionDrawer } from './components/drawer/FunctionDrawer';
+import { GraphCanvas } from './components/canvas/GraphCanvas';
+import { useGraphStore } from './store/graphStore';
 
 export default function App() {
   const { resetViewport, clearFunctions, toggleDarkMode, darkMode } = useGraphStore();
