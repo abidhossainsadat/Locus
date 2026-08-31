@@ -1,4 +1,4 @@
-import type { Point, Viewport } from '../../types';
+import type { Point } from '../../types';
 import { Transform } from '../transform/coordinateTransform';
 
 /**
@@ -238,7 +238,7 @@ export class Sampler {
     yFn: (t: number) => number,
     tMin: number,
     tMax: number,
-    transform: Transform
+    _transform: Transform
   ): Point[][] {
     const points: Point[][] = [];
     const numSamples = Math.max(200, (tMax - tMin) * 50);

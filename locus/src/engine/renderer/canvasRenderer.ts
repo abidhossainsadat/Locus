@@ -1,4 +1,4 @@
-import type { Point, Viewport } from '../../types';
+import type { Point } from '../../types';
 
 /**
  * Canvas 2D Rendering Engine
