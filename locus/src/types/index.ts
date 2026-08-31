@@ -40,8 +40,8 @@ export interface FunctionDef {
 }
 
 export interface CompiledFunction {
-  evaluate: (...args: number[]) => number;
-  derivative?: (x: number) => number;
+  evaluate: (value: number) => number;
+  derivative?: (x: number, h?: number) => number;
 }
 
 export interface SliderDef {
