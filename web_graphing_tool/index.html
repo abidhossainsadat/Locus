@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Advanced Graphing Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-panel: #0f3460;
+            --text-primary: #eee;
+            --text-secondary: #aaa;
+            --accent: #e94560;
+            --accent-hover: #ff6b6b;
+            --grid-major: rgba(255, 255, 255, 0.3);
+            --grid-minor: rgba(255, 255, 255, 0.1);
+            --axis: rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--bg-panel);
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--bg-panel);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-320px);
+            position: absolute;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--bg-panel);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .function-list {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .function-item {
+            background: var(--bg-panel);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .function-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .function-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .function-input {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-primary);
+            border-radius: 4px;
+            padding: 8px 12px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .function-input:focus {
+            border-color: var(--accent);
+        }
+
+        .function-input.error {
+            border-color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .function-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-panel);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+        }
+
+        .btn-danger {
+            background: #ff4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff6666;
+        }
+
+        .add-function-btn {
+            margin: 10px;
+            padding: 12px;
+            background: transparent;
+            border: 2px dashed var(--bg-panel);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-function-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            padding: 15px;
+            border-top: 1px solid var(--bg-panel);
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-input {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-primary);
+            border-radius: 4px;
+            padding: 8px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        /* Canvas Area */
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #graphCanvas {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        #graphCanvas:active {
+            cursor: grabbing;
+        }
+
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 10px;
+            z-index: 1000;
+            background: var(--bg-panel);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        /* Zoom Controls */
+        .zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-panel);
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .zoom-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Coordinates Display */
+        .coords-display {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            max-width: 200px;
+        }
+
+        .info-panel h4 {
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+
+        .info-panel li {
+            margin-bottom: 3px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                z-index: 1000;
+                height: calc(100vh - 50px);
+                transform: translateX(-320px);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .header h1 {
+                font-size: 1rem;
+            }
+
+            .zoom-controls {
+                bottom: 60px;
+            }
+
+            .coords-display {
+                bottom: 60px;
+            }
+        }
+
+        /* Overlay for mobile */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Mode Selector */
+        .mode-selector {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 8px;
+            background: var(--bg-panel);
+            border: none;
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .mode-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Checkbox styling */
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            accent-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>📊 Advanced Graphing Tool</h1>
+            <div class="header-controls">
+                <button class="btn btn-secondary" id="resetViewBtn">Reset View</button>
+                <button class="btn btn-secondary" id="clearAllBtn">Clear All</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h2>Functions</h2>
+                </div>
+
+                <div class="mode-selector">
+                    <button class="mode-btn active" data-mode="cartesian">Y = f(x)</button>
+                    <button class="mode-btn" data-mode="parametric">Parametric</button>
+                    <button class="mode-btn" data-mode="polar">Polar</button>
+                </div>
+
+                <div class="function-list" id="functionList">
+                    <!-- Functions will be added here -->
+                </div>
+
+                <button class="add-function-btn" id="addFunctionBtn">+ Add Function</button>
+
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <label>X Range</label>
+                        <div class="control-row">
+                            <input type="number" class="control-input" id="xMin" value="-10" step="1">
+                            <input type="number" class="control-input" id="xMax" value="10" step="1">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>Y Range</label>
+                        <div class="control-row">
+                            <input type="number" class="control-input" id="yMin" value="-10" step="1">
+                            <input type="number" class="control-input" id="yMax" value="10" step="1">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="checkbox-row">
+                            <input type="checkbox" id="showGrid" checked> Show Grid
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label class="checkbox-row">
+                            <input type="checkbox" id="showAxes" checked> Show Axes
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container">
+                <canvas id="graphCanvas"></canvas>
+                
+                <!-- Mobile Toggle -->
+                <button class="mobile-toggle" id="mobileToggle">☰</button>
+
+                <!-- Zoom Controls -->
+                <div class="zoom-controls">
+                    <button class="zoom-btn" id="zoomInBtn">+</button>
+                    <button class="zoom-btn" id="zoomOutBtn">−</button>
+                    <button class="zoom-btn" id="zoomHomeBtn">⌂</button>
+                </div>
+
+                <!-- Coordinates Display -->
+                <div class="coords-display" id="coordsDisplay">x: 0.00, y: 0.00</div>
+
+                <!-- Info Panel -->
+                <div class="info-panel">
+                    <h4>Supported Functions</h4>
+                    <ul>
+                        <li>sin, cos, tan, asin, acos, atan</li>
+                        <li>sinh, cosh, tanh</li>
+                        <li>log, ln, exp, sqrt, abs</li>
+                        <li>pi, e constants</li>
+                        <li>^ for power</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay for mobile -->
+        <div class="overlay" id="overlay"></div>
+    </div>
+
+    <script src="parser.js"></script>
+    <script src="transform.js"></script>
+    <script src="sampler.js"></script>
+    <script src="renderer.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
