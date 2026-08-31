@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locus - Web Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: -30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-badge {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .status-value {
+            color: #667eea;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎯 Locus</h1>
+            <p>Your Powerful Web Application</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <div class="section">
+                <h2>About Locus</h2>
+                <p>
+                    Locus is a modern web application designed to provide seamless functionality 
+                    and an exceptional user experience. Built with cutting-edge technologies, 
+                    Locus represents the future of web development.
+                </p>
+                <p>
+                    This application is hosted on GitHub Pages and demonstrates best practices 
+                    in web development, including responsive design, performance optimization, 
+                    and clean code architecture.
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>Key Features</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>⚡ Fast Performance</h3>
+                        <p>Optimized for speed and efficiency</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📱 Responsive Design</h3>
+                        <p>Works seamlessly on all devices</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔒 Secure</h3>
+                        <p>Built with security best practices</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🎨 Modern UI</h3>
+                        <p>Clean and intuitive interface</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Technical Details</h2>
+                
+                <h3>Technology Stack</h3>
+                <div class="tech-stack">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">GitHub Pages</span>
+                </div>
+
+                <h3>Application Status</h3>
+                <div class="status-section">
+                    <div class="status-item">
+                        <span class="status-label">Status:</span>
+                        <span class="status-value">✅ Active</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Version:</span>
+                        <span class="status-value">1.0.0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Last Updated:</span>
+                        <span class="status-value" id="lastUpdated">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Deployment:</span>
+                        <span class="status-value">GitHub Pages</span>
+                    </div>
+                </div>
+
+                <h3>Project Structure</h3>
+                <ul>
+                    <li><strong>index.html</strong> - Main entry point and documentation</li>
+                    <li><strong>assets/</strong> - Static assets (images, fonts, etc.)</li>
+                    <li><strong>scripts/</strong> - JavaScript files</li>
+                    <li><strong>styles/</strong> - CSS stylesheets</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Getting Started</h2>
+                <p>To use Locus, simply navigate through the application interface. The app is designed to be intuitive and user-friendly.</p>
+                <ul>
+                    <li>Access the application via <a href="https://abidhossainsadat.github.io/Locus/" style="color: #667eea;">abidhossainsadat.github.io/Locus</a></li>
+                    <li>Explore the features through the main navigation</li>
+                    <li>Check back regularly for updates and new features</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Development & Contribution</h2>
+                <p>
+                    Locus is built following modern web development standards. The codebase is 
+                    maintained on GitHub with version control and continuous deployment via 
+                    GitHub Pages.
+                </p>
+                <p>
+                    For questions, suggestions, or contributions, please visit the GitHub repository 
+                    or contact the development team.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Locus. Built with ❤️ by Abid Hossain Sadat</p>
+            <p>Hosted on <a href="https://pages.github.com/">GitHub Pages</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Set the last updated date
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
