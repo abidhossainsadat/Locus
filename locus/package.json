@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:e2e": "playwright test",
-    "wasm:build": "cd wasm && wasm-pack build --target web"
+    "wasm:build": "cd wasm && wasm-pack build --target web",
+    "deploy": "npm run build"
   },
   "dependencies": {
     "katex": "^0.18.4",
